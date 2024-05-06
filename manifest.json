@@ -1,21 +1,28 @@
 {
     "manifest_version": 3,
-    "name": "WABulk Sender",
-    "description": "Bulk WhatsApp Message Sender Extension",
+    "name": "WhatsApp Link Opener",
     "version": "1.0",
-    "permissions": ["tabs"],
-    "content_scripts": [
-        {
-            "js": ["scripts/content.js"],
-            "matches": [
-                "https://web.whatsapp.com/*"
-            ]
-        }
-    ],
+    "description": "Opens a link to send a WhatsApp message",
+    "action": {
+        "default_popup": "index.html"
+    },
     "background": {
         "service_worker": "background.js"
     },
-    "action": {
-        "default_popup": "index.html"
-    }
+    "permissions": [
+        "tabs",
+        "activeTab",
+        "storage",
+        "scripting"
+    ],
+    "content_scripts": [
+        {
+            "matches": [
+                "<all_urls>"
+            ],
+            "js": [
+                "script.js"
+            ]
+        }
+    ]
 }

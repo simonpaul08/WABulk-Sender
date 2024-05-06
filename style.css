@@ -1,14 +1,43 @@
+body {
+    font-family: sans-serif;
+    margin: 20px;
+}
 
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+h1 {
+    font-size: 20px;
+    margin-bottom: 10px;
 }
-.main-container {
-    width: 400px;
-    padding: 1rem;
+
+h2 {
+    font-size: 18px;
+    margin-top: 20px;
+    margin-bottom: 10px;
 }
-.main-title {
-    font-size: 1.5rem;
+
+p {
+    margin-bottom: 5px;
+}
+
+button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 10px 20px;
     text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#openWhatsappBtn {
+    background-color: #3f51b5; /* Blue */
+}
+
+input[type=file] {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
 }
