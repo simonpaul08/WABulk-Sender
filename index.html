@@ -1,19 +1,22 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 
 <head>
-    <title>Chrome Extension</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WABulk Sender</title>
+
+
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
-    <h1>Welcome to your Chrome Extension</h1>
-    <!-- <a id="openWhatsappBtn" href="https://web.whatsapp.com/" target="_blank">Open WhatsApp Web</a> -->
-    <button id="openWhatsappBtn">Open WhatsApp</button>
-
-    <h2>Upload your Excel Sheet</h2>
-    <input type="file" id="fileUpload" accept=".xlsx, .xls">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
 </body>
 
 </html>
