@@ -17,9 +17,9 @@ function App() {
         // show open whatsapp button
         setIsTab(false)
       }
-
-      checkTab()
     }
+
+    checkTab()
   }, [])
 
   return (
