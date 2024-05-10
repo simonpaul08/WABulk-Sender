@@ -24,6 +24,56 @@
   width: 100%;
   margin-bottom: 1.5rem;
 }
+.numbers-input {
+  width: 100%;
+  padding: 0.65rem 0.85rem;
+  font-size: 0.85rem;
+  font-family: inherit;
+  margin-bottom: 0.25rem;
+}
+.numbers-input::-webkit-inner-spin-button {
+  display: none;
+}
+.number-tags {
+  width: 100%;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  max-height: 150px;
+  overflow-y: auto;
+}
+.tag {
+  display: flex;
+  align-items: center;
+  padding: 0.3rem 0.4rem;
+  background-color: #ccc;
+  margin-right: 0.4rem;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  cursor: pointer;
+  margin-bottom: 0.5rem;
+}
+.tag-number {
+  font-size: 0.75rem;
+  margin-right: 0.45rem;
+  color: #333;
+}
+.tag-icon {
+  margin-bottom: -3px;
+}
+.text-input {
+  width: 100%;
+  padding: 0.65rem 0.85rem;
+  font-size: 0.85rem;
+  font-family: inherit;
+  margin-bottom: 0.25rem;
+  resize: none;
+}
+.error {
+  font-size: 0.75rem;
+  color: red;
+  margin-bottom: 0.45rem;
+}
 .upload-btn {
   width: 100%;
   border-radius: 4px;
