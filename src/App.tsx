@@ -1,6 +1,6 @@
 import { KeyboardEvent, useEffect, useState } from 'react'
 import './App.css'
-import { IoClose } from 'react-icons/io5';
+import { IoMdClose } from "react-icons/io";
 
 function App() {
 
@@ -9,6 +9,13 @@ function App() {
   const [numbers, setNumbers] = useState<number[]>([]);
   const [message, setMessage] = useState<string>("");
   const [error, setError] = useState<string>("");
+
+  // handle open whatsapp
+  const handleOpenWhatsApp = async() => {
+    await chrome.tabs.create({
+      url: "http://web.whatsapp.com"
+    })
+  }
 
   // handle numbers 
   const handleNumbers = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -67,7 +74,7 @@ function App() {
         <h3 className='container-title'>WABulk Sender</h3>
 
         {
-          !isTab ?
+          isTab ?
             <div className='upload-block'>
               <p className='upload-text'>Upload an excel file</p>
               <input type="file" className='upload-input' />
@@ -78,7 +85,7 @@ function App() {
                   return (
                     <div className='tag' onClick={() => handleRemoveNumber(num)}>
                       <p className='tag-number'>{num}</p>
-                      <p className='tag-icon'><IoClose /></p>
+                      <p className='tag-icon'><IoMdClose /></p>
                     </div>
                   )
                 })}
@@ -90,7 +97,7 @@ function App() {
             </div>
             :
             <div className='upload-block'>
-              <button className='upload-btn' type='button'>Open WhatsApp</button>
+              <button className='upload-btn' type='button' onClick={handleOpenWhatsApp}>Open WhatsApp</button>
             </div>
         }
 
