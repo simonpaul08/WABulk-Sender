@@ -4,7 +4,7 @@ import { IoMdClose } from "react-icons/io";
 
 function App() {
 
-  const [isTab, setIsTab] = useState<boolean>(false);
+  const [isTab, setIsTab] = useState<number>(0);
   const [number, setNumber] = useState<string>("");
   const [numbers, setNumbers] = useState<number[]>([]);
   const [message, setMessage] = useState<string>("");
@@ -47,8 +47,30 @@ function App() {
     }
 
     console.log(numbers, message)
-    // write script here
 
+    function initiateMessages() {
+      // write logic in here
+      // const body = document.querySelector("body");
+      // const a = document.createElement("a");
+      // let link = `https://web.whatsapp.com/send?phone=${numbers[0]}&text=${message}`
+      // a.href = link
+      // a.classList.add("click-me") 
+      // body?.append(a)
+      // let ele: HTMLAnchorElement = document.querySelector(".click-me")!;
+      // ele.click()
+
+      setTimeout(() => {
+        const body = document.querySelector("body")!;
+        body.style.background = "#333";
+      }, 3000)
+    }
+
+    chrome.scripting.executeScript({
+      target: { tabId: isTab },
+      func: initiateMessages,
+    }).then(() => {
+      console.log("executing script")
+    })
 
   }
 
@@ -56,12 +78,13 @@ function App() {
     const checkTab = async () => {
       const [tab] = await chrome.tabs.query({ active: true });
       if (tab.url?.startsWith("https://web.whatsapp.com")) {
-        // show form  
-        setIsTab(true)
-        console.log(isTab)
+        // show form 
+        if (tab?.id){
+          setIsTab(tab?.id)
+        } 
       } else {
         // show open whatsapp button
-        setIsTab(false)
+        setIsTab(0)
       }
     }
 
