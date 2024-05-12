@@ -11,7 +11,7 @@ function App() {
   const [error, setError] = useState<string>("");
 
   // handle open whatsapp
-  const handleOpenWhatsApp = async() => {
+  const handleOpenWhatsApp = async () => {
     await chrome.tabs.create({
       url: "http://web.whatsapp.com"
     })
@@ -33,43 +33,59 @@ function App() {
   }
 
   // handle send
-  const handleSend = () => {
+  const handleSend = async () => {
 
     setError("")
 
-    if (numbers?.length == 0){
+    if (numbers?.length == 0) {
       setError("please add valid contact numbers")
       return
     }
-    if (message?.trim() == ""){
+    if (message?.trim() == "") {
       setError("enter valid message")
       return
     }
 
     console.log(numbers, message)
 
-    function initiateMessages() {
-      // write logic in here
-      // const body = document.querySelector("body");
-      // const a = document.createElement("a");
-      // let link = `https://web.whatsapp.com/send?phone=${numbers[0]}&text=${message}`
-      // a.href = link
-      // a.classList.add("click-me") 
-      // body?.append(a)
-      // let ele: HTMLAnchorElement = document.querySelector(".click-me")!;
-      // ele.click()
+    async function initiateMessages(numbers: number[], message: string) {
+      const promisesList: Promise<void>[] = [];
 
-      setTimeout(() => {
-        const body = document.querySelector("body")!;
-        body.style.background = "#333";
-      }, 3000)
+      for (let i = 0; i < numbers.length; i++) {
+        // Use an IIFE (Immediately Invoked Function Expression) to capture the value of i
+        (function (index) {
+          const sendMessage = new Promise<void>((resolve, _) => {
+            const body = document.querySelector("body")!;
+            const a = document.createElement("a");
+            a.href = `https://web.whatsapp.com/send?phone=${numbers[index]}&text=${encodeURIComponent(message)}`;
+            a.classList.add("click-me");
+            body.appendChild(a);
+
+            // find the element and click
+            const ele: HTMLAnchorElement = document.querySelector(".click-me")!;
+            ele.click();
+            setTimeout(() => {
+              const button: HTMLButtonElement = document.querySelector("[data-tab='11']")!;
+              button.click()
+              const a = document.querySelector(".click-me")!;
+              a.remove();
+              resolve()
+            }, 3000)
+          });
+
+          promisesList.push(sendMessage);
+        })(i); // Pass the current value of i to the IIFE
+      }
+      console.log(promisesList)
+      return Promise.all(promisesList);
     }
 
     chrome.scripting.executeScript({
       target: { tabId: isTab },
       func: initiateMessages,
+      args: [numbers, message],
     }).then(() => {
-      console.log("executing script")
+      console.log("executed")
     })
 
   }
@@ -79,9 +95,9 @@ function App() {
       const [tab] = await chrome.tabs.query({ active: true });
       if (tab.url?.startsWith("https://web.whatsapp.com")) {
         // show form 
-        if (tab?.id){
+        if (tab?.id) {
           setIsTab(tab?.id)
-        } 
+        }
       } else {
         // show open whatsapp button
         setIsTab(0)
@@ -114,7 +130,7 @@ function App() {
                 })}
               </div>
               <textarea name="text" id="text" className='text-input' rows={4} placeholder='Type Message Here...'
-              value={message} onChange={(e) => setMessage(e.target.value)}></textarea>
+                value={message} onChange={(e) => setMessage(e.target.value)}></textarea>
               <p className='error'>{error}</p>
               <button className='upload-btn' type='button' onClick={handleSend}>Send</button>
             </div>
