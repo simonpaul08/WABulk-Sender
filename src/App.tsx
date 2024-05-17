@@ -46,47 +46,47 @@ function App() {
       return
     }
 
-    console.log(numbers, message)
-
-    async function initiateMessages(numbers: number[], message: string) {
-      const promisesList: Promise<void>[] = [];
-
-      for (let i = 0; i < numbers.length; i++) {
-        // Use an IIFE (Immediately Invoked Function Expression) to capture the value of i
-        (function (index) {
-          const sendMessage = new Promise<void>((resolve, _) => {
-            const body = document.querySelector("body")!;
-            const a = document.createElement("a");
-            a.href = `https://web.whatsapp.com/send?phone=${numbers[index]}&text=${encodeURIComponent(message)}`;
-            a.classList.add("click-me");
-            body.appendChild(a);
-
-            // find the element and click
-            const ele: HTMLAnchorElement = document.querySelector(".click-me")!;
-            ele.click();
-            setTimeout(() => {
-              const button: HTMLButtonElement = document.querySelector("[data-tab='11']")!;
-              button.click()
-              const a = document.querySelector(".click-me")!;
-              a.remove();
-              resolve()
-            }, 3000)
-          });
-
-          promisesList.push(sendMessage);
-        })(i); // Pass the current value of i to the IIFE
-      }
-      console.log(promisesList)
-      return Promise.all(promisesList);
+    // custom wait func => promise
+    function waitFor(num: number) {
+      return new Promise((resolve, _) => {
+        setTimeout(() => {
+          resolve("resolved")
+        }, num * 1000)
+      })
     }
 
-    chrome.scripting.executeScript({
-      target: { tabId: isTab },
-      func: initiateMessages,
-      args: [numbers, message],
-    }).then(() => {
-      console.log("executed")
-    })
+
+    function initiateMessages(number: number, message: string) {
+      return new Promise<string>((resolve, _) => {
+        const login: HTMLButtonElement = document.querySelector(".home-campaign-signup-button")!;
+        login.click();
+        let i = 0
+        const interval = setInterval(() => {
+          console.log("interval => ", i);
+          if (i == 5) {
+            resolve(`${message} => ${number}`)
+            clearInterval(interval)
+          } else {
+            i++;
+          }
+        }, 1000)
+      })
+    }
+
+    for (let i = 0; i < numbers.length; i++) {
+      let random = Math.floor(Math.random() * 10);
+      console.log("random => ", random)
+      const wait = await waitFor(random)
+      console.log(wait)
+      const res = await chrome.scripting.executeScript({
+        target: { tabId: isTab },
+        func: initiateMessages,
+        args: [numbers[i], message],
+      })
+      console.log(res)
+    }
+
+
 
   }
 
